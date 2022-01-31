@@ -8,19 +8,33 @@ class midtransController extends Controller
     
     public function paymentgateway()
     {
-        // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
-        // Set sanitization on (default)
-        \Midtrans\Config::$isSanitized = true;
-        // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = true;
+        //call initialize midtrans payment gateway
+        $this -> initMidtrans();
+
         $params = array(
             'transaction_details' => array(
                 'order_id' => rand(),
                 'gross_amount' => 10000,
-            )
+            ),
+
+            //quantity error
+            // 'item_details'=>array(
+            //     "id" => "ITEM1",
+            //     "price"=>10000,
+            //     "quantity"=>1,
+            //     "name"=>"abc",
+            //     "brand"=>"def",
+            //     "kategory"=>"ghi",
+            //     "merchant_name"=>"jkl",
+            // ),
+
+            //firstname can't show up
+            'customer_details'=>array(
+                "firstname" => "hamdani",
+                "last_name"=>"dika",
+                "email"=>"abc@abc.com",
+                "phone"=>"+6213456"
+            )            
         );
         
         $snapToken = \Midtrans\Snap::getSnapToken($params);
